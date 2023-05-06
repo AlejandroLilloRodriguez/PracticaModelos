@@ -2,7 +2,7 @@ package es.ceu.gisi.modcomp.cyk_algorithm.algorithm;
 
 import es.ceu.gisi.modcomp.cyk_algorithm.algorithm.exceptions.CYKAlgorithmException;
 import es.ceu.gisi.modcomp.cyk_algorithm.algorithm.interfaces.CYKAlgorithmInterface;
-
+import java.util.*;
 /**
  * Esta clase contiene la implementación de la interfaz CYKAlgorithmInterface
  * que establece los métodos necesarios para el correcto funcionamiento del
@@ -12,6 +12,12 @@ import es.ceu.gisi.modcomp.cyk_algorithm.algorithm.interfaces.CYKAlgorithmInterf
  */
 public class CYKAlgorithm implements CYKAlgorithmInterface {
 
+    private Map<Character, List<Character>> produccion = new HashMap<>();
+    private Set<Character> noTerminales = new HashSet<>();
+    private Set<Character> terminales = new HashSet<>();
+    private ArrayList<String>[][] tabla;
+    private char axioma;
+    
     @Override
     /**
      * Método que añade los elementos no terminales de la gramática.
@@ -20,7 +26,12 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * @throws CYKAlgorithmException Si el elemento no es una letra mayúscula.
      */
     public void addNonTerminal(char nonterminal) throws CYKAlgorithmException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        if (Character.isUpperCase(nonterminal)) {
+            noTerminales.add(nonterminal);
+        } else {
+            throw new CYKAlgorithmException();
+        }
     }
 
     @Override
@@ -31,7 +42,11 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * @throws CYKAlgorithmException Si el elemento no es una letra minúscula.
      */
     public void addTerminal(char terminal) throws CYKAlgorithmException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(Character.isLowerCase(terminal)){
+            terminales.add(terminal);
+        }else{
+            throw new CYKAlgorithmException();
+        }
     }
 
     @Override
@@ -44,7 +59,12 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * conjunto de elementos no terminales.
      */
     public void setStartSymbol(char nonterminal) throws CYKAlgorithmException {
-        throw new UnsupportedOperationException("Not supported yet.");
+      if(!noTerminales.contains(nonterminal)){
+            throw new UnsupportedOperationException("Not supported yet.");
+
+      }else{
+          axioma=nonterminal;
+      }
     }
 
     @Override
@@ -59,7 +79,19 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * previamente.
      */
     public void addProduction(char nonterminal, String production) throws CYKAlgorithmException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (production.length() == 2 && Character.isUpperCase(production.charAt(0)) && Character.isUpperCase(production.charAt(1))) {
+            List<Character> lista1 = new ArrayList<>();
+            lista1.add(production.charAt(0));
+            lista1.add(production.charAt(1));
+            produccion.put(nonterminal, lista1);
+        } else if (production.length() == 1 && Character.isLowerCase(production.charAt(0))) {
+            List<Character> lista2 = new ArrayList<>();
+            lista2.add(production.charAt(0));
+            produccion.put(terminal, lista2);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+
+        }
     }
 
     @Override
