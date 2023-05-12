@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class CYKAlgorithm implements CYKAlgorithmInterface {
 
-    private Map<Character, List<Character>> produccion = new HashMap<>();
+    private Map<Character, String> produccion = new HashMap<>();
     private Set<Character> noTerminales = new HashSet<>();
     private Set<Character> terminales = new HashSet<>();
     private ArrayList<String>[][] tabla;
@@ -80,14 +80,10 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      */
     public void addProduction(char nonterminal, String production) throws CYKAlgorithmException {
         if (production.length() == 2 && Character.isUpperCase(production.charAt(0)) && Character.isUpperCase(production.charAt(1))) {
-            List<Character> lista1 = new ArrayList<>();
-            lista1.add(production.charAt(0));
-            lista1.add(production.charAt(1));
-            produccion.put(nonterminal, lista1);
+            
+            produccion.put(nonterminal, production);
         } else if (production.length() == 1 && Character.isLowerCase(production.charAt(0))) {
-            List<Character> lista2 = new ArrayList<>();
-            lista2.add(production.charAt(0));
-            produccion.put(terminal, lista2);
+            produccion.put(nonterminal, production);
         } else {
             throw new UnsupportedOperationException("Not supported yet.");
 
@@ -107,8 +103,55 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * conjunto de terminales definido para la gramática introducida, si la
      * gramática es vacía o si el autómata carece de axioma.
      */
+    
+    public void CreateTable(String word) {
+        tabla = new ArrayList[word.length()][word.length()];
+        //creamos la tabla vacia
+        for (int i = 0; i < word.length(); i++) {
+            for (int j = 0; j < word.length(); j++) {
+                tabla[i][j] = new ArrayList<>();
+            }
+        }
+        //rellenamos la diagonal de la tabla
+            for (int i = 0; i < word.length(); i++) {
+            tabla[i][i].add(String.valueOf(word.charAt(i)));
+            }
+        //rellenamos la tabla
+        for (int i = 1; i < word.length(); i++) {
+            for (int j = 0; j < word.length() - i; j++) {
+                for (int k = 0; k < i; k++) {
+                    for (int l = 0; l<produccion.get(axioma).length(); l++) {
+                        if (tabla[j][j + k].contains(String.valueOf(produccion.get(axioma).charAt(l))) && tabla[j + k + 1][j + i].contains(String.valueOf(produccion.get(axioma).charAt(l)))) {
+                            tabla[j][j + i].add(String.valueOf(produccion.get(axioma).charAt(l)));
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+   
     public boolean isDerived(String word) throws CYKAlgorithmException {
+        if (noTerminales.isEmpty()) {
         throw new UnsupportedOperationException("Not supported yet.");
+        }
+        if (axioma == 0) {
+        throw new UnsupportedOperationException("Not supported yet.");
+        }
+        for (int i = 0; i < word.length(); i++) {
+            if (!terminales.contains(word.charAt(i))) {
+        throw new UnsupportedOperationException("Not supported yet.");
+            }
+        }
+        if (word.isEmpty()) {
+        throw new UnsupportedOperationException("Not supported yet.");
+        }
+        if (tabla[0][word.length() - 1].contains(String.valueOf(axioma))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -129,6 +172,8 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      */
     public String algorithmStateToString(String word) throws CYKAlgorithmException {
         throw new UnsupportedOperationException("Not supported yet.");
+                tabla = new String[word.length()][word.length()];
+
     }
 
     @Override
