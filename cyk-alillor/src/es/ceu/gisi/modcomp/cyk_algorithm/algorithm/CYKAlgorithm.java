@@ -171,9 +171,32 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * gramática es vacía o si el autómata carece de axioma.
      */
     public String algorithmStateToString(String word) throws CYKAlgorithmException {
-        throw new UnsupportedOperationException("Not supported yet.");
-                tabla = new String[word.length()][word.length()];
-
+        if (word.isEmpty()) {
+            throw new UnsupportedOperationException("Not supported yet.");        }
+        if (noTerminales.isEmpty()) {
+            throw new UnsupportedOperationException("Not supported yet.");        }
+        if (axioma == 0) {
+            throw new UnsupportedOperationException("Not supported yet.");        }
+        for (int i = 0; i < word.length(); i++) {
+            if (!terminales.contains(word.charAt(i))) {
+                throw new UnsupportedOperationException("Not supported yet.");            }
+        }
+        for (int i = 0; i < word.length(); i++) {
+            if (!Character.isLowerCase(word.charAt(i))) {
+                throw new UnsupportedOperationException("Not supported yet.");            }
+        }
+        if (isDerived(word)==true) {
+            String tabla2 = "";
+            for (int i = 0; i < word.length(); i++) {
+                for (int j = 0; j < word.length(); j++) {
+                    tabla2 += tabla[i][j].toString() + " ";
+                }
+                tabla2 += "\n";
+            }
+            return tabla2;
+        } else {
+            return "La palabra no pertenece al lenguaje de la gramatica";
+        }
     }
 
     @Override
@@ -183,8 +206,18 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * dejando el algoritmo listo para volver a insertar una gramática nueva.
      */
     public void removeGrammar() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+        if (noTerminales != null) {
+            noTerminales.clear();
+        }
+        if (terminales != null) {
+            terminales.clear();
+        }
+        axioma = 0;
+        if (produccion != null) {
+            produccion.clear();
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }    }
 
     @Override
     /**
