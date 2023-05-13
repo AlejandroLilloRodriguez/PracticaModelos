@@ -59,12 +59,11 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * conjunto de elementos no terminales.
      */
     public void setStartSymbol(char nonterminal) throws CYKAlgorithmException {
-      if(!noTerminales.contains(nonterminal)){
-            throw new UnsupportedOperationException("Not supported yet.");
-
-      }else{
-          axioma=nonterminal;
-      }
+      if (!noTerminales.contains(nonterminal)&& !Character.isUpperCase(nonterminal)) {
+            throw new CYKAlgorithmException();
+        } else {
+            axioma = nonterminal;
+        }
     }
 
     @Override
@@ -259,7 +258,7 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * elementos no terminales.
      */
     public String getGrammar() {
-        throw new UnsupportedOperationException("Not supported yet.");
+      
     }
 
 }
