@@ -27,7 +27,7 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      */
     public void addNonTerminal(char nonterminal) throws CYKAlgorithmException {
         
-        if (Character.isUpperCase(nonterminal)) {
+        if (Character.isUpperCase(nonterminal)&& !noTerminales.contains(nonterminal)) {
             noTerminales.add(nonterminal);
         } else {
             throw new CYKAlgorithmException();
@@ -42,11 +42,11 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * @throws CYKAlgorithmException Si el elemento no es una letra minúscula.
      */
     public void addTerminal(char terminal) throws CYKAlgorithmException {
-        if(Character.isLowerCase(terminal)){
-            terminales.add(terminal);
+        if (Character.isLowerCase(terminal)&& !terminales.contains(terminal)) {
+             terminales.add(terminal);
         }else{
-            throw new CYKAlgorithmException();
-        }
+       throw new CYKAlgorithmException();
+    }
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * conjunto de elementos no terminales.
      */
     public void setStartSymbol(char nonterminal) throws CYKAlgorithmException {
-      if (!noTerminales.contains(nonterminal)&& !Character.isUpperCase(nonterminal)) {
+      if (!noTerminales.contains(nonterminal)) {
             throw new CYKAlgorithmException();
         } else {
             axioma = nonterminal;
@@ -78,17 +78,47 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * previamente.
      */
     public void addProduction(char nonterminal, String production) throws CYKAlgorithmException {
-        if (production.length() == 2 && Character.isUpperCase(production.charAt(0)) && Character.isUpperCase(production.charAt(1))) {
-            
-            produccion.put(nonterminal, production);
-        } else if (production.length() == 1 && Character.isLowerCase(production.charAt(0))) {
+        
+ if (production.length() == 2 && Character.isUpperCase(production.charAt(0)) && Character.isUpperCase(production.charAt(1))&& noTerminales.contains(production.charAt(0)) && noTerminales.contains(production.charAt(1))&&production.charAt(0)!=nonterminal&&production.charAt(1)!=nonterminal) {            
+     produccion.put(nonterminal, production);
+        } else if (production.length() == 1 && Character.isLowerCase(production.charAt(0))&& terminales.contains(production.charAt(0))) {
+
             produccion.put(nonterminal, production);
         } else {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new CYKAlgorithmException();
 
         }
+        if (!noTerminales.contains(nonterminal)) {
+            throw new CYKAlgorithmException();
+        }
     }
+    public void CreateTable(String word) {
+        tabla = new ArrayList[word.length()][word.length()];
+        //creamos la tabla vacia
+        for (int i = 0; i < word.length(); i++) {
+            for (int j = 0; j < word.length(); j++) {
+                tabla[i][j] = new ArrayList<>();
+            }
+        }
+        //rellenamos la diagonal de la tabla
+            for (int i = 0; i < word.length(); i++) {
+            tabla[i][i].add(String.valueOf(word.charAt(i)));
+            }
+        //rellenamos la tabla
+        for (int i = 1; i < word.length(); i++) {
+            for (int j = 0; j < word.length() - i; j++) {
+                for (int k = 0; k < i; k++) {
+                    for (int l = 0; l<produccion.get(axioma).length(); l++) {
+                        if (tabla[j][j + k].contains(String.valueOf(produccion.get(axioma).charAt(l))) && tabla[j + k + 1][j + i].contains(String.valueOf(produccion.get(axioma).charAt(l)))) {
+                            tabla[j][j + i].add(String.valueOf(produccion.get(axioma).charAt(l)));
+                        }
 
+                    }
+                }
+            }
+        }
+
+    }
     @Override
     /**
      * Método que indica si una palabra pertenece al lenguaje generado por la
@@ -123,33 +153,7 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
             return false;
         }
     }
-    public void CreateTable(String word) {
-        tabla = new ArrayList[word.length()][word.length()];
-        //creamos la tabla vacia
-        for (int i = 0; i < word.length(); i++) {
-            for (int j = 0; j < word.length(); j++) {
-                tabla[i][j] = new ArrayList<>();
-            }
-        }
-        //rellenamos la diagonal de la tabla
-            for (int i = 0; i < word.length(); i++) {
-            tabla[i][i].add(String.valueOf(word.charAt(i)));
-            }
-        //rellenamos la tabla
-        for (int i = 1; i < word.length(); i++) {
-            for (int j = 0; j < word.length() - i; j++) {
-                for (int k = 0; k < i; k++) {
-                    for (int l = 0; l<produccion.get(axioma).length(); l++) {
-                        if (tabla[j][j + k].contains(String.valueOf(produccion.get(axioma).charAt(l))) && tabla[j + k + 1][j + i].contains(String.valueOf(produccion.get(axioma).charAt(l)))) {
-                            tabla[j][j + i].add(String.valueOf(produccion.get(axioma).charAt(l)));
-                        }
-
-                    }
-                }
-            }
-        }
-
-    }
+    
 
     @Override
     /**
@@ -236,18 +240,18 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
             throw new UnsupportedOperationException("Not supported yet.");
         }
         String producciones = produccion.get(nonterminal + "");
-    String devolver = nonterminal + "::=";
+    String cadena = nonterminal + "::=";
 
     for (int i = 0; i < producciones.length(); i++) {
         char c = producciones.charAt(i);
         if (c != '|') {
-            devolver += c;
+            cadena += c;
         } else {
-            devolver += "|";
+           cadena += "|";
         }
     }
 
-    return devolver;
+    return cadena ;
     }
 
     @Override

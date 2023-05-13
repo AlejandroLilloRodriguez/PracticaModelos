@@ -33,27 +33,27 @@ public class BasicTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void comprobarAniadirTerminalValido() throws CYKAlgorithmException {
+    public void comprobarAniadirTerminalValido() throws CYKAlgorithmException {// me va bien 
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
     }
 
     @Test
-    public void comprobarAniadirTerminalNoValido1() throws CYKAlgorithmException {
+    public void comprobarAniadirTerminalNoValido1() throws CYKAlgorithmException {// me va bien 
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('0');
     }
 
     @Test
-    public void comprobarAniadirTerminalNoValido2() throws CYKAlgorithmException {
+    public void comprobarAniadirTerminalNoValido2() throws CYKAlgorithmException {// me va bien 
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('A');
     }
 
     @Test
-    public void comprobarAniadirTerminalNoValido3() throws CYKAlgorithmException {
+    public void comprobarAniadirTerminalNoValido3() throws CYKAlgorithmException {// me va bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
@@ -61,27 +61,27 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirNoTerminalValido() throws CYKAlgorithmException {
+    public void comprobarAniadirNoTerminalValido() throws CYKAlgorithmException {// me va bien
         cyk = new CYKAlgorithm();
         cyk.addNonTerminal('S');
     }
 
     @Test
-    public void comprobarAniadirNoTerminalNoValido1() throws CYKAlgorithmException {
+    public void comprobarAniadirNoTerminalNoValido1() throws CYKAlgorithmException {// me va bien 
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addNonTerminal('a');
     }
 
     @Test
-    public void comprobarAniadirNoTerminalNoValido2() throws CYKAlgorithmException {
+    public void comprobarAniadirNoTerminalNoValido2() throws CYKAlgorithmException {// me va bien 
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addNonTerminal('0');
     }
 
     @Test
-    public void comprobarAniadirNoTerminalNoValido3() throws CYKAlgorithmException {
+    public void comprobarAniadirNoTerminalNoValido3() throws CYKAlgorithmException {// me va bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addNonTerminal('S');
@@ -89,21 +89,21 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarEstablecerAxiomaValido() throws CYKAlgorithmException {
+    public void comprobarEstablecerAxiomaValido() throws CYKAlgorithmException {// me va bien
         cyk = new CYKAlgorithm();
         cyk.addNonTerminal('S');
         cyk.setStartSymbol('S');
     }
 
     @Test
-    public void comprobarEstablecerAxiomaNoValido1() throws CYKAlgorithmException {
+    public void comprobarEstablecerAxiomaNoValido1() throws CYKAlgorithmException {// me bien 
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.setStartSymbol('S');
     }
 
     @Test
-    public void comprobarEstablecerAxiomaNoValido2() throws CYKAlgorithmException {
+    public void comprobarEstablecerAxiomaNoValido2() throws CYKAlgorithmException {// me va bien 
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addNonTerminal('A');
@@ -112,7 +112,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarEstablecerAxiomaNoValido3() throws CYKAlgorithmException {
+    public void comprobarEstablecerAxiomaNoValido3() throws CYKAlgorithmException {// me va bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addNonTerminal('A');
@@ -121,7 +121,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirProduccionValida() throws CYKAlgorithmException {
+    public void comprobarAniadirProduccionValida() throws CYKAlgorithmException {// me va bien
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
         cyk.addNonTerminal('S');
@@ -131,7 +131,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirProduccionNoValida1() throws CYKAlgorithmException {
+    public void comprobarAniadirProduccionNoValida1() throws CYKAlgorithmException {// me bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
@@ -143,7 +143,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirProduccionNoValida2() throws CYKAlgorithmException {
+    public void comprobarAniadirProduccionNoValida2() throws CYKAlgorithmException {// me va bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
@@ -155,7 +155,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirProduccionNoValida3() throws CYKAlgorithmException {
+    public void comprobarAniadirProduccionNoValida3() throws CYKAlgorithmException {//  me va bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
@@ -166,7 +166,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirProduccionNoValida4() throws CYKAlgorithmException {
+    public void comprobarAniadirProduccionNoValida4() throws CYKAlgorithmException {// me va bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
@@ -178,7 +178,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirProduccionNoValida5() throws CYKAlgorithmException {
+    public void comprobarAniadirProduccionNoValida5() throws CYKAlgorithmException {// me va bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
@@ -189,7 +189,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirProduccionNoValida6() throws CYKAlgorithmException {
+    public void comprobarAniadirProduccionNoValida6() throws CYKAlgorithmException {// me va bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
@@ -201,7 +201,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirProduccionNoValida7() throws CYKAlgorithmException {
+    public void comprobarAniadirProduccionNoValida7() throws CYKAlgorithmException {// me va bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
@@ -213,7 +213,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirProduccionNoValida8() throws CYKAlgorithmException {
+    public void comprobarAniadirProduccionNoValida8() throws CYKAlgorithmException {// me va bien 
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
@@ -226,7 +226,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarRecuperarProducciones() throws CYKAlgorithmException {
+    public void comprobarRecuperarProducciones() throws CYKAlgorithmException {// me va mal
         cyk = new CYKAlgorithm();
         cyk.addNonTerminal('S');
         cyk.addNonTerminal('A');
@@ -258,7 +258,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarEliminarGramaticaValido() throws CYKAlgorithmException {
+    public void comprobarEliminarGramaticaValido() throws CYKAlgorithmException {// me va mal
         cyk = new CYKAlgorithm();
         cyk.addNonTerminal('S');
         cyk.addNonTerminal('A');
@@ -299,7 +299,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarDerivacionNoValido1() throws CYKAlgorithmException {
+    public void comprobarDerivacionNoValido1() throws CYKAlgorithmException {// me va mal
         thrown.expect(CYKAlgorithmException.class);
 
         cyk = new CYKAlgorithm();
@@ -330,7 +330,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarDerivacionNoValido2() throws CYKAlgorithmException {
+    public void comprobarDerivacionNoValido2() throws CYKAlgorithmException {// me va mal
         thrown.expect(CYKAlgorithmException.class);
 
         cyk = new CYKAlgorithm();
@@ -361,7 +361,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarDerivacionValido1() throws CYKAlgorithmException {
+    public void comprobarDerivacionValido1() throws CYKAlgorithmException {// me va mal
 
         cyk = new CYKAlgorithm();
 
@@ -391,7 +391,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarDerivacionValido2() throws CYKAlgorithmException {
+    public void comprobarDerivacionValido2() throws CYKAlgorithmException {// me va mal
 
         cyk = new CYKAlgorithm();
 
