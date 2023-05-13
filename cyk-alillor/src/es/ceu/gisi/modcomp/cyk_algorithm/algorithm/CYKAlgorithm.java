@@ -103,7 +103,27 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * conjunto de terminales definido para la gramática introducida, si la
      * gramática es vacía o si el autómata carece de axioma.
      */
-    
+    public boolean isDerived(String word) throws CYKAlgorithmException {
+        if (noTerminales.isEmpty()) {
+        throw new UnsupportedOperationException("Not supported yet.");
+        }
+        if (axioma == 0) {
+        throw new UnsupportedOperationException("Not supported yet.");
+        }
+        for (int i = 0; i < word.length(); i++) {
+            if (!terminales.contains(word.charAt(i))) {
+        throw new UnsupportedOperationException("Not supported yet.");
+            }
+        }
+        if (word.isEmpty()) {
+        throw new UnsupportedOperationException("Not supported yet.");
+        }
+        if (tabla[0][word.length() - 1].contains(String.valueOf(axioma))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public void CreateTable(String word) {
         tabla = new ArrayList[word.length()][word.length()];
         //creamos la tabla vacia
@@ -130,28 +150,6 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
             }
         }
 
-    }
-   
-    public boolean isDerived(String word) throws CYKAlgorithmException {
-        if (noTerminales.isEmpty()) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        }
-        if (axioma == 0) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        }
-        for (int i = 0; i < word.length(); i++) {
-            if (!terminales.contains(word.charAt(i))) {
-        throw new UnsupportedOperationException("Not supported yet.");
-            }
-        }
-        if (word.isEmpty()) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        }
-        if (tabla[0][word.length() - 1].contains(String.valueOf(axioma))) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     @Override
@@ -232,7 +230,25 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * salida podría ser: "S::=AB|BC".
      */
     public String getProductions(char nonterminal) {
-        throw new UnsupportedOperationException("Not supported yet.");
+         if (!noTerminales.contains(nonterminal)) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        if (produccion.isEmpty()) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        String producciones = produccion.get(nonterminal + "");
+    String devolver = nonterminal + "::=";
+
+    for (int i = 0; i < producciones.length(); i++) {
+        char c = producciones.charAt(i);
+        if (c != '|') {
+            devolver += c;
+        } else {
+            devolver += "|";
+        }
+    }
+
+    return devolver;
     }
 
     @Override
