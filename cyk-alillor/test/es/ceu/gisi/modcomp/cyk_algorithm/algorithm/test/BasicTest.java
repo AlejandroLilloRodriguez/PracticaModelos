@@ -213,7 +213,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarAniadirProduccionNoValida8() throws CYKAlgorithmException {// me va bien 
+    public void comprobarAniadirProduccionNoValida8() throws CYKAlgorithmException {// me va bien
         thrown.expect(CYKAlgorithmException.class);
         cyk = new CYKAlgorithm();
         cyk.addTerminal('a');
@@ -299,7 +299,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarDerivacionNoValido1() throws CYKAlgorithmException {// me va mal
+    public void comprobarDerivacionNoValido1() throws CYKAlgorithmException {// me va bien 
         thrown.expect(CYKAlgorithmException.class);
 
         cyk = new CYKAlgorithm();
@@ -330,7 +330,7 @@ public class BasicTest {
     }
 
     @Test
-    public void comprobarDerivacionNoValido2() throws CYKAlgorithmException {// me va mal
+    public void comprobarDerivacionNoValido2() throws CYKAlgorithmException {// me va bien
         thrown.expect(CYKAlgorithmException.class);
 
         cyk = new CYKAlgorithm();

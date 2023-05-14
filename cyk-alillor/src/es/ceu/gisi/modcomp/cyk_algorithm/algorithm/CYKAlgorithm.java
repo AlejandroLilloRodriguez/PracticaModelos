@@ -79,7 +79,7 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      */
     public void addProduction(char nonterminal, String production) throws CYKAlgorithmException {
         
- if (production.length() == 2 && Character.isUpperCase(production.charAt(0)) && Character.isUpperCase(production.charAt(1))&& noTerminales.contains(production.charAt(0)) && noTerminales.contains(production.charAt(1))&&production.charAt(0)!=nonterminal&&production.charAt(1)!=nonterminal) {            
+ if (production.length() == 2 && Character.isUpperCase(production.charAt(0)) && Character.isUpperCase(production.charAt(1))&& noTerminales.contains(production.charAt(0)) && noTerminales.contains(production.charAt(1))&&production.charAt(0)!=nonterminal) {            
      produccion.put(nonterminal, production);
         } else if (production.length() == 1 && Character.isLowerCase(production.charAt(0))&& terminales.contains(production.charAt(0))) {
 
@@ -90,6 +90,11 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
         }
         if (!noTerminales.contains(nonterminal)) {
             throw new CYKAlgorithmException();
+        }
+        for (Map.Entry<Character, String> entry : produccion.entrySet()) {
+            if (entry.getValue().equals(production)) {
+                throw new CYKAlgorithmException();
+            }
         }
     }
     public void CreateTable(String word) {
@@ -136,7 +141,7 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
         if (noTerminales.isEmpty()) {
         throw new UnsupportedOperationException("Not supported yet.");
         }
-        if (axioma == 0) {
+        if (axioma == '\u0000') {
         throw new UnsupportedOperationException("Not supported yet.");
         }
         for (int i = 0; i < word.length(); i++) {
@@ -213,12 +218,12 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
         if (terminales != null) {
             terminales.clear();
         }
-        axioma = 0;
+        
         if (produccion != null) {
             produccion.clear();
-        } else {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    }
+        }
+        axioma = '\u0000';
+    }
 
     @Override
     /**
