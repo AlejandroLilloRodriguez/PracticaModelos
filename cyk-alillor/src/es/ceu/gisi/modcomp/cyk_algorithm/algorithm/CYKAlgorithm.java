@@ -84,7 +84,7 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
 
     if ((production.length() == 2 && Character.isUpperCase(production.charAt(0)) && Character.isUpperCase(production.charAt(1))
             && noTerminales.contains(production.charAt(0)) && noTerminales.contains(production.charAt(1)) && nonterminal != production.charAt(0))
-        || (production.length() == 1 && Character.isLowerCase(production.charAt(0)) && Terminals.contains(production.charAt(0)))) {
+        || (production.length() == 1 && Character.isLowerCase(production.charAt(0)) && terminales.contains(production.charAt(0)))) {
 
         Set<String> productions = produccion.getOrDefault(nonterminal, new HashSet<>());
         if (productions.contains(production)) {
@@ -99,7 +99,7 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
     // necesito crear un metodo para obtener los no terminales de un terminal , para poder meterlos en las celdas de la tabla
     public Set<Character> ObtenerTerminalesCelda(char terminal) {
     Set<Character> listaSet = new HashSet<>();
-    for (Map.Entry<Character, Set<String>> entry : p.entrySet()) {
+    for (Map.Entry<Character, Set<String>> entry : produccion.entrySet()) {
         char nonterminal = entry.getKey();
         Set<String> productions = entry.getValue();
         for (String production : productions) {
@@ -244,27 +244,24 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * salida podría ser: "S::=AB|BC".
      */
     public String getProductions(char nonterminal) {
-         if (!noTerminales.contains(nonterminal)) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-        if (produccion.isEmpty()) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-        String producciones = produccion.get(nonterminal + "");
-    String cadena = nonterminal + "::=";
-
-    for (int i = 0; i < producciones.length(); i++) {
-        char c = producciones.charAt(i);
-        if (c != '|') {
-            cadena += c;
-        } else {
-           cadena += "|";
+        StringBuilder productionsString = new StringBuilder();
+    Set<String> productions = produccion.getOrDefault(nonterminal, Collections.emptySet());
+    
+    if (!productions.isEmpty()) {
+        productionsString.append(nonterminal).append("::=");
+        List<String> produccionOrdenada = new ArrayList<>(productions);
+        Collections.sort(produccionOrdenada);
+        
+        for (int i = 0; i < produccionOrdenada.size(); i++) {
+            if (i > 0) {
+                productionsString.append("|");
+            }
+            productionsString.append(produccionOrdenada.get(i));
         }
     }
-
-    return cadena ;
-    }
-
+    
+    return productionsString.toString();
+}
     @Override
     /**
      * Devuelve un String con la gramática completa.
@@ -289,3 +286,4 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
     }
 
 }
+
