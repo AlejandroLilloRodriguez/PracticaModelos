@@ -96,32 +96,20 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
         throw new CYKAlgorithmException();
     }
 }
-    public void CreateTable(String word) {
-        tabla = new ArrayList[word.length()][word.length()];
-        //creamos la tabla vacia
-        for (int i = 0; i < word.length(); i++) {
-            for (int j = 0; j < word.length(); j++) {
-                tabla[i][j] = new ArrayList<>();
+    // necesito crear un metodo para obtener los no terminales de un terminal , para poder meterlos en las celdas de la tabla
+    public Set<Character> ObtenerTerminalesCelda(char terminal) {
+    Set<Character> listaSet = new HashSet<>();
+    for (Map.Entry<Character, Set<String>> entry : p.entrySet()) {
+        char nonterminal = entry.getKey();
+        Set<String> productions = entry.getValue();
+        for (String production : productions) {
+            if (production.length() == 1 && production.charAt(0) == terminal) {
+                listaSet.add(nonterminal);
             }
         }
-        //rellenamos la diagonal de la tabla
-            for (int i = 0; i < word.length(); i++) {
-            tabla[i][i].add(String.valueOf(word.charAt(i)));
-            }
-        //rellenamos la tabla
-        for (int i = 1; i < word.length(); i++) {
-            for (int j = 0; j < word.length() - i; j++) {
-                for (int k = 0; k < i; k++) {
-                    for (int l = 0; l<produccion.get(axioma).length(); l++) {
-                        if (tabla[j][j + k].contains(String.valueOf(produccion.get(axioma).charAt(l))) && tabla[j + k + 1][j + i].contains(String.valueOf(produccion.get(axioma).charAt(l)))) {
-                            tabla[j][j + i].add(String.valueOf(produccion.get(axioma).charAt(l)));
-                        }
-
-                    }
-                }
-            }
-        }
-
+    }
+    
+    return listaSet;
     }
     @Override
     /**
@@ -137,26 +125,45 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * gramática es vacía o si el autómata carece de axioma.
      */
     public boolean isDerived(String word) throws CYKAlgorithmException {
-        if (noTerminales.isEmpty()) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    int n = word.length();
+    if (n == 0 || noTerminales.isEmpty() || axioma == '\u0000') {
+        throw new CYKAlgorithmException();
+    }
+
+    Set<Character>[][] table = new HashSet[n][n];
+
+    for (int i = 0; i < n; i++) {
+        char terminal = word.charAt(i);
+        if (!terminales.contains(terminal)) {
+            throw new CYKAlgorithmException();
         }
-        if (axioma == '\u0000') {
-        throw new UnsupportedOperationException("Not supported yet.");
-        }
-        for (int i = 0; i < word.length(); i++) {
-            if (!terminales.contains(word.charAt(i))) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        table[i][i] = ObtenerTerminalesCelda(terminal);
+    }
+
+    for (int l = 2; l <= n; l++) {
+        for (int i = 0; i <= n - l; i++) {
+            int j = i + l - 1;
+            table[i][j] = new HashSet<>();
+            for (int k = i; k < j; k++) {
+                Set<Character> noterminales1 = table[i][k];
+                Set<Character> noterminales2 = table[k + 1][j];
+                for (char nonterminal : noTerminales) {
+                    for (String production : produccion.getOrDefault(nonterminal, Collections.emptySet())) {
+                        if (production.length() == 2) {
+                            char symbolA = production.charAt(0);
+                            char symbolB = production.charAt(1);
+                            if (noterminales1.contains(symbolA) && noterminales2.contains(symbolB)) {
+                                table[i][j].add(nonterminal);
+                            }
+                        }
+                    }
+                }
             }
         }
-        if (word.isEmpty()) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        }
-        if (tabla[0][word.length() - 1].contains(String.valueOf(axioma))) {
-            return true;
-        } else {
-            return false;
-        }
     }
+
+    return table[0][n - 1].contains(axioma);
+}
     
 
     @Override
