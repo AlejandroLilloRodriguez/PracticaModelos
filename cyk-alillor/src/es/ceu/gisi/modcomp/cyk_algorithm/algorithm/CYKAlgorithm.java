@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class CYKAlgorithm implements CYKAlgorithmInterface {
 
-    private Map<Character, String> produccion = new HashMap<>();
+    private Map<Character, Set<String>> produccion = new HashMap<>();
     private Set<Character> noTerminales = new HashSet<>();
     private Set<Character> terminales = new HashSet<>();
     private ArrayList<String>[][] tabla;
@@ -78,25 +78,24 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * previamente.
      */
     public void addProduction(char nonterminal, String production) throws CYKAlgorithmException {
-        
- if (production.length() == 2 && Character.isUpperCase(production.charAt(0)) && Character.isUpperCase(production.charAt(1))&& noTerminales.contains(production.charAt(0)) && noTerminales.contains(production.charAt(1))&&production.charAt(0)!=nonterminal) {            
-     produccion.put(nonterminal, production);
-        } else if (production.length() == 1 && Character.isLowerCase(production.charAt(0))&& terminales.contains(production.charAt(0))) {
-
-            produccion.put(nonterminal, production);
-        } else {
-            throw new CYKAlgorithmException();
-
-        }
-        if (!noTerminales.contains(nonterminal)) {
-            throw new CYKAlgorithmException();
-        }
-        for (Map.Entry<Character, String> entry : produccion.entrySet()) {
-            if (entry.getValue().equals(production)) {
-                throw new CYKAlgorithmException();
-            }
-        }
+    if (!noTerminales.contains(nonterminal)) {
+        throw new CYKAlgorithmException();
     }
+
+    if ((production.length() == 2 && Character.isUpperCase(production.charAt(0)) && Character.isUpperCase(production.charAt(1))
+            && noTerminales.contains(production.charAt(0)) && noTerminales.contains(production.charAt(1)) && nonterminal != production.charAt(0))
+        || (production.length() == 1 && Character.isLowerCase(production.charAt(0)) && Terminals.contains(production.charAt(0)))) {
+
+        Set<String> productions = produccion.getOrDefault(nonterminal, new HashSet<>());
+        if (productions.contains(production)) {
+            throw new CYKAlgorithmException();
+        }
+        productions.add(production);
+        produccion.put(nonterminal, productions);
+    } else {
+        throw new CYKAlgorithmException();
+    }
+}
     public void CreateTable(String word) {
         tabla = new ArrayList[word.length()][word.length()];
         //creamos la tabla vacia
@@ -267,7 +266,19 @@ public class CYKAlgorithm implements CYKAlgorithmInterface {
      * elementos no terminales.
      */
     public String getGrammar() {
-      
+      StringBuilder grammar = new StringBuilder();
+
+ 
+
+    for (char nonTerminal : noTerminales) {
+
+        if (produccion.containsKey(nonTerminal)) {
+
+            grammar.append(nonTerminal).append(" := ").append(produccion.get(nonTerminal)).append("\n");
+
+        }
+    }
+    return grammar.toString();
     }
 
 }
